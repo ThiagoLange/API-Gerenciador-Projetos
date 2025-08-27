@@ -40,7 +40,11 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/login").permitAll()
                         .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers("/error").permitAll()
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
+
+                        // [NOVA REGRA] Apenas ADMINS podem acessar /users/**
+                        .requestMatchers("/users/**").hasRole("ADMIN")
+
+                        .requestMatchers("/admin/**").hasRole("ADMIN") // Regra anterior para /admin
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
